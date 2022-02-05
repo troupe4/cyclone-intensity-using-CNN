@@ -1,0 +1,3 @@
+CNN*model/Satellite*Imagery/
+CNN*model/images.npy
+CNN*model/labels.npy
