@@ -1,0 +1,75 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    background-color: rgb(1, 26, 46);
+    color: #fff;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+
+
+#map { 
+    position: absolute;
+     top: 0; 
+     bottom: 0; 
+     width: 100%;
+     z-index: -1;
+   }
+
+
+.cyclone-controls{
+  background-color: #001634ec;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 10px;
+  margin-left: 20px;
+  width: 250px;
+  height: 450px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.season-btn{
+  display: flex;
+  flex-direction: column;
+}
+
+.season-btn a{
+  text-decoration: none;
+  color: rgb(231, 231, 231);
+  font-size: 17px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.season-btn a:hover{
+  background-color: #fff;
+  color: #001634;
+  font-weight: bold;
+}
+
+.cyclone-controls p{
+  color: rgb(145, 145, 145);
+  font-size: 15px;
+  border-bottom: 1px solid rgb(110, 110, 110);
+  width: 210px;
+  margin-top: 10px;
+  padding-bottom: 5px;
+}
+
+
+.cyclone-controls input{
+  padding: 7px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}

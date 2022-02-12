@@ -1,5 +1,14 @@
+
+from asyncio.windows_events import NULL
+from msilib.schema import Icon
+from multiprocessing import context
 from django.shortcuts import render ,redirect
 from .models import StormData
+
+
+
+
+
 
 def home(request):
     return render(request, 'intensity_app/home.html')
@@ -11,12 +20,18 @@ def explore_all(request):
     return render(request, 'intensity_app/explore.html' , context)
 
 def explore(request):
-    return render(request,'intensity_app/explore.html')
+   context = {
+        'storms_list' : StormData.objects.all(),
+    }    
+   return render(request,'intensity_app/explore.html',context)
+
+
 
 def about(request):
     return render(request, 'intensity_app/about.html')
 
 def explore_by_name(request, name):
+
     storms = StormData.objects.filter(storm_name=name)
     context = {
         "storms_list" : storms,
