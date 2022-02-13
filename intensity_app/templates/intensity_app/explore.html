@@ -27,9 +27,9 @@
           <p>View by season</p>
           <div class="seasons">
             <a href="#" class="season">Active</a>
-            <a href="#" class="season">2020</a>
-            <a href="#" class="season">2019</a>
-            <a href="#" class="season">2018</a>
+            <a href={% url "explore" %}?year=2020 class="season">2020</a>
+            <a href={% url "explore" %}?year=2019 class="season">2019</a>
+            <a href={% url "explore" %}?year=2018 class="season">2018</a>
           </div>
         </div>
         <div class="margin"></div>
@@ -47,6 +47,12 @@
           </form>
         </div>
       </div>
+      <div class="map-card">
+        <div class="container">
+        <h4><b>Wind speed</b></h4>
+         <p>wind speed dekh lo bhaiyon</p>
+        </div>
+</div>
     </div>
     <script>
 
@@ -66,7 +72,7 @@
           container: 'map', // container ID
           style: 'mapbox://styles/priyanshup891/ckzdpbo1w005p14p93iljoz95', // style URL
           center: [85.324, 27.7172], // starting position [lng, lat]
-          zoom: 1 // starting zoom
+          zoom: 3 // starting zoom
       });
 
 
@@ -75,12 +81,13 @@
       map.addControl(new mapboxgl.NavigationControl());
 
       {% for data in storms_list %}
+      
       var marker1 = new mapboxgl.Marker()
       .setLngLat([{{data.longitude}}, {{data.latitude}}])
-      .setPopup(new mapboxgl.Popup().setHTML("<h1>{{data.storm_name}}</h1>"))
+      .setLayer({{ data.storm_name }})
       .addTo(map);
       {% endfor %}
-
+      
 
       map.addLayer({
       'id': 'circle',

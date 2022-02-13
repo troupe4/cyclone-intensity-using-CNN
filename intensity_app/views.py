@@ -35,7 +35,7 @@ def explore(request):
         return render(request,'intensity_app/explore.html', context=context)
     
     elif year != '' and month != '':
-        storms = StormData.objects.filter(
+        bg_storms = StormData.objects.filter(
             origin_date__year=year, 
             origin_date__month=month
         )
@@ -47,7 +47,7 @@ def explore(request):
         return render(request,'intensity_app/explore.html', context=context)
     
     elif year != '':
-        storms = StormData.objects.filter(origin_date__year=year)
+        bg_storms = StormData.objects.filter(origin_date__year=year)
         context = {
             "storm" : StormData.objects.get(storm_id=id) if id != '' else None,
             "storms_list": bg_storms,
