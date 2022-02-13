@@ -1,75 +1,89 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
-body {
-    background-color: rgb(1, 26, 46);
-    color: #fff;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  }
-
-
-
-#map { 
-    position: absolute;
-     top: 0; 
-     bottom: 0; 
-     width: 100%;
-     z-index: -1;
-   }
-
-
-.cyclone-controls{
-  background-color: #001634ec;
+.map-controls {
   position: absolute;
+  background-color: rgb(0, 35, 58);
+  width: 250px;
+  height: 400px;
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 5px;
   top: 0;
   left: 0;
-  margin-top: 10px;
-  margin-left: 20px;
-  width: 250px;
-  height: 450px;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
+  z-index: 2;
+  padding: 1rem;
 }
 
-.season-btn{
-  display: flex;
-  flex-direction: column;
+p {
+  color: rgb(119, 119, 119);
+  font-size: 15px;
+  letter-spacing: 1px;
 }
 
-.season-btn a{
+.season {
+  display: block;
   text-decoration: none;
-  color: rgb(231, 231, 231);
-  font-size: 17px;
-  margin-bottom: 10px;
+  color: rgb(235, 235, 235);
+  font-size: 16px;
+  margin: 10px 0;
   padding: 5px;
   border-radius: 5px;
+  transition: 0.3s ease-in-out;
 }
 
-.season-btn a:hover{
-  background-color: #fff;
-  color: #001634;
+.season:hover {
+  background: rgb(235, 235, 235);
+  color: rgb(0, 35, 58);
   font-weight: bold;
 }
 
-.cyclone-controls p{
-  color: rgb(145, 145, 145);
-  font-size: 15px;
-  border-bottom: 1px solid rgb(110, 110, 110);
-  width: 210px;
-  margin-top: 10px;
-  padding-bottom: 5px;
+.margin {
+  width: 220px;
+  height: 1px;
+  margin: 10px 0;
+  background-color: rgb(99, 99, 99);
 }
 
-
-.cyclone-controls input{
-  padding: 7px;
+input {
+  margin: 10px 0;
+  width: 220px;
+  padding: 5px;
   border: none;
   outline: none;
   border-radius: 5px;
+}
+
+.btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgb(0, 35, 58);
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-top: 10px;
+  display: none;
+}
+
+.btn img {
+  width: 20px;
+  margin: 7px 10px;
+  margin-top: 8px;
+}
+
+@media screen and (max-width: 710px) {
+  .map-controls {
+    display: none;
+  }
+  .show-control {
+    display: block;
+    margin-top: 60px;
+  }
+  .btn {
+    display: block;
+  }
 }
