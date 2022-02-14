@@ -7,17 +7,49 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
     <link
       href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css"
       rel="stylesheet"
     />
 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css">
+    <script type="text/javascript">
+        $(function() {
+            $('.date-picker').datepicker( {
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'MM yy',
+            onClose: function(dateText, inst) { 
+                $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+            }
+            });
+        });
+    </script>
+    <style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+    </style>
+
     <title>Document</title>
   </head>
   <body>
-    <div id="map" style="width: 100%; height: 100vh"></div>
+    <nav class="navbar">
+      <div class="nav-center">
+        <div class="nav-logo">
+         <span>Hurri</span>Cane.
+        </div>
+        <div class="nav-links">
+          <a href="#" class="nav-link">Explore</a>
+          <a href="#" class="nav-link">About</a>
+        </div>
+      </div>
+    </nav>
+    <div id="map" style="width: 100%; height: calc(100vh - 4rem)"></div>
     <div class="btn" id="btn">
       <img src={% static './intensity_app/images/gear.png' %} alt="">
     </div>
@@ -26,7 +58,7 @@
         <div class="search-year">
           <p>View by season</p>
           <div class="seasons">
-            <a href="#" class="season">Active</a>
+            <a href={% url "explore_all" %} class="season">Active</a>
             <a href={% url "explore" %}?year=2020 class="season">2020</a>
             <a href={% url "explore" %}?year=2019 class="season">2019</a>
             <a href={% url "explore" %}?year=2018 class="season">2018</a>
@@ -43,16 +75,18 @@
         <div class="search-date">
           <p>Search by date</p>
           <form action="">
-            <input type="date" />
+            <input name="startDate" id="startDate" class="date-picker" />
           </form>
         </div>
       </div>
+      {% if show_card %}
       <div class="map-card">
         <div class="container">
         <h4><b>Wind speed</b></h4>
          <p>wind speed dekh lo bhaiyon</p>
         </div>
 </div>
+{% endif %}
     </div>
     <script>
 
@@ -74,21 +108,45 @@
           center: [85.324, 27.7172], // starting position [lng, lat]
           zoom: 3 // starting zoom
       });
-
-
-
-
+      
       map.addControl(new mapboxgl.NavigationControl());
 
       {% for data in storms_list %}
+      var el = document.createElement('div');
+      el.innerHTML = "{{data.storm_name}}";
+      el.setAttribute("id","marker")
+      el.style.cssText="font-size:18px; color:#fff; cursor:pointer;"
+
+      var img = document.createElement('img');
+      img.src="https://pngimg.com/uploads/hurricane/hurricane_PNG42.png";
+      img.style.width="50px"
+
+      el.appendChild(img);
+
+      el.addEventListener('click', () => {
+        
+
+      var add = window.location.href;
       
-      var marker1 = new mapboxgl.Marker()
-      .setLngLat([{{data.longitude}}, {{data.latitude}}])
-      .setLayer({{ data.storm_name }})
+      if(add.includes("{{data.storm_id}}")){
+          var idx = add.indexOf("{{data.storm_id}}");
+          add= add.replace(add.slice(idx));
+        } else if (add.includes("?")){
+          add = add + `&id={{data.storm_id}}`
+        } else{
+          add = add + `?id={{data.storm_id}}`
+        }
+      var address = String(String(add) + `?id={{data.storm_id}}`);
+      window.location.assign(address);
+      console.log(address)
+      })
+
+
+      var marker1 = new mapboxgl.Marker(el)
+      .setLngLat([{{ data.longitude }}, {{data.latitude}}])
       .addTo(map);
       {% endfor %}
       
-
       map.addLayer({
       'id': 'circle',
       'type': 'circle',
@@ -99,7 +157,7 @@
       'circle-stroke-width': 2,
       'circle-stroke-color': '#ffffff'
       }
-      });
+      }); 
 
       // Center the map on the coordinates of any clicked circle from the 'circle' layer.
       map.on('click', 'circle', (e) => {
@@ -117,6 +175,12 @@
       map.on('mouseleave', 'circle', () => {
       map.getCanvas().style.cursor = '';
       });
+
+
+
+
+
+   
     </script>
   </body>
 </html>
