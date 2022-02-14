@@ -58,7 +58,7 @@
         <div class="search-year">
           <p>View by season</p>
           <div class="seasons">
-            <a href={% url "explore_all" %} class="season">Active</a>
+            <a href={% url "explore_all" %} class="season">Show All</a>
             <a href={% url "explore" %}?year=2020 class="season">2020</a>
             <a href={% url "explore" %}?year=2019 class="season">2019</a>
             <a href={% url "explore" %}?year=2018 class="season">2018</a>
@@ -82,11 +82,11 @@
       {% if show_card %}
       <div class="map-card">
         <div class="container">
-        <h4><b>Wind speed</b></h4>
-         <p>wind speed dekh lo bhaiyon</p>
+          <h4><b>Wind speed</b></h4>
+          <p>wind speed dekh lo bhaiyon {{ storm.storm_id }}</p>
         </div>
-</div>
-{% endif %}
+      </div>
+      {% endif %}
     </div>
     <script>
 
@@ -114,37 +114,38 @@
       {% for data in storms_list %}
       var el = document.createElement('div');
       el.innerHTML = "{{data.storm_name}}";
-      el.setAttribute("id","marker")
+      el.setAttribute("id","marker");
       el.style.cssText="font-size:18px; color:#fff; cursor:pointer;"
 
       var img = document.createElement('img');
+      img.setAttribute("id","img");
       img.src="https://pngimg.com/uploads/hurricane/hurricane_PNG42.png";
       img.style.width="50px"
 
       el.appendChild(img);
 
-      el.addEventListener('click', () => {
-        
-
-      var add = window.location.href;
-      
-      if(add.includes("{{data.storm_id}}")){
-          var idx = add.indexOf("{{data.storm_id}}");
-          add= add.replace(add.slice(idx));
-        } else if (add.includes("?")){
-          add = add + `&id={{data.storm_id}}`
-        } else{
-          add = add + `?id={{data.storm_id}}`
-        }
-      var address = String(String(add) + `?id={{data.storm_id}}`);
-      window.location.assign(address);
-      console.log(address)
-      })
-
-
       var marker1 = new mapboxgl.Marker(el)
       .setLngLat([{{ data.longitude }}, {{data.latitude}}])
       .addTo(map);
+
+      img.addEventListener("click", () => {
+        var add = window.location.href;
+        console.log(add);
+        if(add.includes("id")) {
+          var idx = add.indexOf("id");
+          console.log(idx);
+          add = add.replace(add.slice(idx-1), '');
+          console.log(add);
+        }
+        if(add.includes("?")) {
+          add = add + "&id=" + {{ data.storm_id }};
+        }
+        else {
+          add = add + "?id=" + {{ data.storm_id }};
+        }
+        console.log(add);
+        window.location.assign(add);
+      })
       {% endfor %}
       
       map.addLayer({
@@ -175,12 +176,6 @@
       map.on('mouseleave', 'circle', () => {
       map.getCanvas().style.cursor = '';
       });
-
-
-
-
-
-   
     </script>
   </body>
 </html>
