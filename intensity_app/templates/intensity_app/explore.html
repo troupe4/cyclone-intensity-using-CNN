@@ -84,11 +84,14 @@
           </form>
         </div>
       </div>
-      {% if show_card %}
+    </div>
+    {% if show_card %}
       <div class="map-card" id = "myDiv">
         <div class="container">
+          <div>
             <h4 class = "storm-name"><b>Cyclone {{ storm.storm_name }}</b></h4>
             <h5 class = "map-date">{{ storm.origin_date }}</h5>
+          </div>
             <button onclick="history.back()" class = "close"><b>X</b></button>
           </div>
           <div class = "wind-data">
@@ -99,10 +102,8 @@
            <div class = "images">
           <img src= "https://eoimages.gsfc.nasa.gov/images/imagerecords/83000/83486/CycloneIta_amo_2014101_tn.jpg" style="width:100%">
            </div>
-      </div>
-      
-      {% endif %}
     </div>
+      {% endif %}
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
